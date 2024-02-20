@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 from matplotlib.widgets import Slider
 
 def simulate_collision(mass1, velocity1, mass2, velocity2, elasticity, duration, time_step):
-    positions1 = [0]
+    positions1 = [0]   # initial position of the first object
     positions2 = [10]  # Initial position of the second object
 
     for _ in range(int(duration / time_step)):
