@@ -1,6 +1,5 @@
 import pygame
 import sys
-import numpy
 
 #initialize pygame
 pygame.init()
@@ -89,9 +88,11 @@ while True:
         if speed > 0:
             speed -= nita_acc
             net_acc = gravity-nita_acc
+            net_acc_rounded = round(net_acc,2)
         elif speed < 0:
             speed += nita_acc
             net_acc = gravity+nita_acc
+            net_acc_rounded = round(net_acc,4)
         pos_y += speed
         rounded_speed = round(speed,2)
         #udate position forball without air resistance
@@ -118,7 +119,7 @@ while True:
 
     #print net acceleration
     net_accl_without_air_resistance =font.render(f"net acc. without air resistance: {gravity}",True,(0,0,0))
-    net_accl_with_air_resistance = font.render(f"net acc. with air resistance: {net_acc}",True,(0,0,0))
+    net_accl_with_air_resistance = font.render(f"net acc. with air resistance: {net_acc_rounded}",True,(0,0,0))
     screen.blit(net_accl_without_air_resistance,(WIDTH-599, 70))
     screen.blit(net_accl_with_air_resistance,(20,70))
 
