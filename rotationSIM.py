@@ -7,12 +7,17 @@ pygame.init()
 clock = pygame.time.Clock()
 
 #setup display
-WIDTH , HEIGHT = 800 , 800
+WIDTH , HEIGHT = 1600 , 800
 screen = pygame.display.set_mode((WIDTH,HEIGHT))
 pygame.display.set_caption("rotation Simulator")
 
-#setup color
+#setup color and font
+green = (255,0,0)
 white = (255,255,255)
+blue = (0,0,255)
+font = pygame.font.Font('freesansbold.ttf',32)
+font_pause = pygame.font.Font('freesansbold.ttf',60)
+paused = False
 
 #setup physics
 nita = 1.18 * pow(10,-5)
@@ -40,6 +45,10 @@ while True:
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_SPACE:
+                paused = not paused
+    
 
     key = pygame.key.get_pressed()
     if key[pygame.K_1]  and pos_y == collision_surface:
@@ -73,15 +82,22 @@ while True:
     #clear screen
     screen.fill(white)
     
-    #update speed and position
-    speed += gravity
-    nita_acc = 6*3.14*nita*radius*speed/mass
-    speed -= nita_acc
-    pos_y += speed
-
-    #udate position forball without air resistance
-    speed_without_air_resistance += gravity
-    pos_y_without_air_resistance += speed_without_air_resistance
+    if not paused:
+        #update speed and position
+        speed += gravity
+        nita_acc = 6*3.14*nita*radius*speed/mass
+        if speed > 0:
+            speed -= nita_acc
+            net_acc = gravity-nita_acc
+        elif speed < 0:
+            speed += nita_acc
+            net_acc = gravity+nita_acc
+        pos_y += speed
+        rounded_speed = round(speed,2)
+        #udate position forball without air resistance
+        speed_without_air_resistance += gravity
+        pos_y_without_air_resistance += speed_without_air_resistance
+        rounded_speed_without_air_resistance = round(speed_without_air_resistance,2)
 
     if pos_y > collision_surface:
         pos_y = collision_surface
@@ -90,6 +106,22 @@ while True:
         pos_y_without_air_resistance = collision_surface
         speed_without_air_resistance = -speed_without_air_resistance*restitution
 
+    #print paused
+    pause_text = font_pause.render("PAUSED",True,(0,0,0))if paused else font.render("",True,(0,0,0))
+    screen.blit(pause_text,(WIDTH//2-120,30))
+
+    #print speeds
+    speed_text = font.render(f"Speed with air resistance: {rounded_speed}",True,(0,0,0))
+    speed_without_air_resistance_text = font.render(f"speed without air resistance: {rounded_speed_without_air_resistance}",True,(0,0,0))
+    screen.blit(speed_text,(20,30))
+    screen.blit(speed_without_air_resistance_text,(WIDTH-570,30))
+
+    #print net acceleration
+    net_accl_without_air_resistance =font.render(f"net acc. without air resistance: {gravity}",True,(0,0,0))
+    net_accl_with_air_resistance = font.render(f"net acc. with air resistance: {net_acc}",True,(0,0,0))
+    screen.blit(net_accl_without_air_resistance,(WIDTH-599, 70))
+    screen.blit(net_accl_with_air_resistance,(20,70))
+
     #draw the circle
     pygame.draw.circle(screen, (0,255,255),(pos_x,pos_y), radius)
     pygame.draw.circle(screen, (0,255,0), (pos_x_without_air_resistance, pos_y_without_air_resistance), radius_without_air_resistance)
@@ -97,4 +129,3 @@ while True:
     #update the screen
     pygame.display.flip()
     clock.tick(60)
-fdsafiudgi
