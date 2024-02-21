@@ -134,4 +134,4 @@ while True:
 
     #update the screen
     pygame.display.flip()
-    clock.tick(60)
+    clock.tick(1)
