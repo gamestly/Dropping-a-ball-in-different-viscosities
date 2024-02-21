@@ -55,36 +55,9 @@ while True:
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
                 paused = not paused
-    
-
-    key = pygame.key.get_pressed()
-    if key[pygame.K_1]  and pos_y == collision_surface:
-        speed += 10
-        speed_without_air_resistance += 10
-    if key[pygame.K_2]  and pos_y == collision_surface:
-        speed += 20
-        speed_without_air_resistance += 20
-    if key[pygame.K_3]  and pos_y == collision_surface:
-        speed += 30
-        speed_without_air_resistance += 30
-    if key[pygame.K_4]  and pos_y == collision_surface:
-        speed += 40
-        speed_without_air_resistance += 40
-    if key[pygame.K_5]  and pos_y == collision_surface:
-        speed += 50
-        speed_without_air_resistance += 50
-    if key[pygame.K_6]  and pos_y == collision_surface:
-        speed += 60
-        speed_without_air_resistance += 60
-    if key[pygame.K_7]  and pos_y == collision_surface:
-        speed += 70
-        speed_without_air_resistance += 70
-    if key[pygame.K_8]  and pos_y == collision_surface:
-        speed += 80
-        speed_without_air_resistance += 80
-    if key[pygame.K_9]  and pos_y == collision_surface:
-        speed += 90
-        speed_without_air_resistance += 90
+            elif event.key == pygame.K_r:
+                pos_y = pos_y_water_resistance = pos_y_without_air_resistance = radius
+                speed = speed_water_resistance = speed_without_air_resistance = 0
 
     #clear screen
     screen.fill(white)
@@ -139,17 +112,17 @@ while True:
     screen.blit(pause_text,(WIDTH//2-120,30))
 
     #print speeds
-    speed_text = font.render(f"Speed with air resistance: {rounded_speed}",True,(0,0,0))
-    speed_water_resistance_text = font.render(f"speed with water resistance: {rounded_speed_water}",True,(0,0,0))
-    speed_without_air_resistance_text = font.render(f"speed without air resistance: {rounded_speed_without_air_resistance}",True,(0,0,0))
+    speed_text = font.render(f"Speed with air resistance: {rounded_speed}",True,(64,64,64))
+    speed_water_resistance_text = font.render(f"speed with water resistance: {rounded_speed_water}",True,(66,53,255))
+    speed_without_air_resistance_text = font.render(f"speed without air resistance: {rounded_speed_without_air_resistance}",True,(53,255,53))
     screen.blit(speed_text,(20,30))
     screen.blit(speed_without_air_resistance_text,(20,110))
     screen.blit(speed_water_resistance_text,(20,190))
 
     #print net acceleration
-    net_accl_without_air_resistance =font.render(f"net acc. without air resistance: {gravity}",True,(0,0,0))
-    net_accl_with_air_resistance = font.render(f"net acc. with air resistance: {net_acc_rounded}",True,(0,0,0))
-    net_accl_water_resistance = font.render(f"net acc. with water resistance: {round(net_acc_water,2)}",True,(0,0,0))
+    net_accl_without_air_resistance =font.render(f"net acc. without air resistance: {gravity}",True,(53,255,53))
+    net_accl_with_air_resistance = font.render(f"net acc. with air resistance: {net_acc_rounded}",True,(64,64,64))
+    net_accl_water_resistance = font.render(f"net acc. with water resistance: {round(net_acc_water,2)}",True,(66,53,255))
     screen.blit(net_accl_without_air_resistance,(20, 150))
     screen.blit(net_accl_with_air_resistance,(20,70))
     screen.blit(net_accl_water_resistance,(20,230))
@@ -161,4 +134,4 @@ while True:
 
     #update the screen
     pygame.display.flip()
-    clock.tick(1)
+    clock.tick(60)
