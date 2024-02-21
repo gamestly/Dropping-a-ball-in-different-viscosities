@@ -13,7 +13,7 @@ font = pygame.font.Font('freesansbold.ttf',32)
 # Set up the circle
 circle_radius = 50
 circle_color = (255, 0, 0)
-center = (width // 2, height // 2)
+center = (width // 3, height // 2)
 distance = 100
 
 # Set up the motion parameters
@@ -49,7 +49,7 @@ while running:
 
     # Draw the circle at its current position
     pygame.draw.circle(screen, circle_color, (round(circle_x), round(circle_y)), circle_radius)
-    pygame.draw.circle(screen,(0,0,0),(width//2,height//2),3)
+    pygame.draw.circle(screen,(0,0,0),(width//3,height//2),3)
 
     # Update the display
     pygame.display.flip()
